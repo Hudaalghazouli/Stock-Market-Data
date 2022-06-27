@@ -20,6 +20,11 @@ Sub Test():
     sheet.Cells(1, 10).Value = "YearlyChange"
     sheet.Cells(1, 11).Value = "Percent Change"
     sheet.Cells(1, 12).Value = "Total Stock Volume"
+    sheet.Cells(1, 16).Value = "Ticker"
+    sheet.Cells(1, 17).Value = "Value"
+    sheet.Cells(2, 15).Value = "Greatest % Increase"
+    sheet.Cells(3, 15).Value = "Greatest % Decrease"
+    sheet.Cells(4, 15).Value = "Greatest total volumes"
     
         For Row = 2 To lastRow
         
@@ -56,18 +61,33 @@ Sub Test():
                 summaryTableRow = summaryTableRow + 1
                 
             End If
-        
+            
         Next Row
+        
+        ' Bonus Question
+        
+        GreatestIncrease = WorksheetFunction.Max(sheet.Range("K2:K" & lastRow))
+        sheet.Cells(2, 17).Value = GreatestIncrease
+        sheet.Cells(2, 17).NumberFormat = "0.00%"
+        GreatestIncreaseName = WorksheetFunction.Match(GreatestIncrease, sheet.Range("K2:K" & lastRow), 0)
+        sheet.Cells(2, 16).Value = sheet.Range("I" & GreatestIncreaseName + 1).Value
+        
+        
+        GreatestDecrease = WorksheetFunction.Min(sheet.Range("K2:K" & lastRow))
+        sheet.Cells(3, 17).Value = GreatestDecrease
+        sheet.Cells(3, 17).NumberFormat = "0.00%"
+        GreatestDecreaseName = WorksheetFunction.Match(GreatestDecrease, sheet.Range("K2:K" & lastRow), 0)
+        sheet.Cells(3, 16).Value = sheet.Range("I" & GreatestDecreaseName + 1).Value
+        
+        GreatestTotal = WorksheetFunction.Max(sheet.Range("L2:L" & lastRow))
+        sheet.Cells(4, 17).Value = GreatestTotal
+        GreatestTotalName = WorksheetFunction.Match(GreatestTotal, sheet.Range("L2:L" & lastRow), 0)
+        sheet.Cells(4, 16).Value = sheet.Range("I" & GreatestTotalName + 1).Value
+        
+        
         
     Next sheet
     
 End Sub
-
-
-
-
-
-
-
 
 
